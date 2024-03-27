@@ -317,7 +317,7 @@ platform:
     region: ${POWERVS_REGION}
 #   vpcRegion: ${VPCREGION}
     zone: ${POWERVS_ZONE}
-    serviceInstanceID: ${SERVICE_INSTANCE_GUID}
+    serviceInstanceGUID: ${SERVICE_INSTANCE_GUID}
 #   cloudConnectionName: cloud-con-rdr-hamzy-test1-syd04-57kpj
 #capabilities:
 #  baselineCapabilitySet: None
