@@ -174,7 +174,7 @@ then
 	#
 	# Quota check for image imports
 	#
-	JOBS=$(ibmcloud pi jobs --operation-action imageImport --json | jq -r '.jobs[] | select (.status.state|test("running")) | .id')
+	JOBS=$(ibmcloud pi job ls --operation-action imageImport --json | jq -r '.jobs[] | select (.status.state|test("running")) | .id')
 	if [ -n "${JOBS}" ]
 	then
 		echo "${JOBS}"
