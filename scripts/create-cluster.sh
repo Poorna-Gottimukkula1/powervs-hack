@@ -16,6 +16,7 @@
 # openshift-install wait-for install-complete
 #
 
+USE_CAPI=false
 TEST_QUOTA_DNS=false
 TEST_QUOTA_CLOUD_CONNECTIONS=false
 TEST_QUOTA_DHCP=false
@@ -138,7 +139,7 @@ then
 	#
 	# Quota check cloud connections
 	#
-	CONNECTIONS=$(ibmcloud pi connections --json | jq -r '.cloudConnections|length')
+    CONNECTIONS=$(ibmcloud pi cloud-connection list --json | jq -r '.cloudConnections|length')
 	if (( ${CONNECTIONS} >= 2 ))
 	then
 		echo "Error: Cannot have 2 or more cloud connections.  You currently have ${CONNECTIONS}."
@@ -174,7 +175,7 @@ then
 	#
 	# Quota check for image imports
 	#
-	JOBS=$(ibmcloud pi jobs --operation-action imageImport --json | jq -r '.jobs[] | select (.status.state|test("running")) | .id')
+	JOBS=$(ibmcloud pi job ls --operation-action imageImport --json | jq -r '.jobs[] | select (.status.state|test("running")) | .id')
 	if [ -n "${JOBS}" ]
 	then
 		echo "${JOBS}"
@@ -318,7 +319,9 @@ platform:
 #   vpcRegion: ${VPCREGION}
     zone: ${POWERVS_ZONE}
     serviceInstanceGUID: ${SERVICE_INSTANCE_GUID}
-#   cloudConnectionName: cloud-con-rdr-hamzy-test1-syd04-57kpj
+featureSet: CustomNoUpgrade
+featureGates:
+   - ClusterAPIInstall=true
 #capabilities:
 #  baselineCapabilitySet: None
 #  additionalEnabledCapabilities:
@@ -334,6 +337,11 @@ pullSecret: '${PULL_SECRET}'
 sshKey: |
   ${SSH_KEY}
 ___EOF___
+
+if ! ${USE_CAPI}
+then
+	sed -i -e '/^featureSet/d' -e'/^featureGates/d' -e '/ClusterAPIInstall/d' ${CLUSTER_DIR}/install-config.yaml
+fi
 
 #
 # We use manual credentials mode
