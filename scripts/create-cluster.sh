@@ -338,6 +338,8 @@ sshKey: |
   ${SSH_KEY}
 ___EOF___
 
+cat ${CLUSTER_DIR}/install-config.yaml
+
 if ! ${USE_CAPI}
 then
 	sed -i -e '/^featureSet/d' -e'/^featureGates/d' -e '/ClusterAPIInstall/d' ${CLUSTER_DIR}/install-config.yaml
