@@ -345,6 +345,7 @@ then
 	sed -i -e '/^featureSet/d' -e'/^featureGates/d' -e '/ClusterAPIInstall/d' ${CLUSTER_DIR}/install-config.yaml
 fi
 
+cat ${CLUSTER_DIR}/install-config.yaml
 #
 # We use manual credentials mode
 #
