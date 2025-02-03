@@ -345,13 +345,15 @@ then
 	sed -i -e '/^featureSet/d' -e'/^featureGates/d' -e '/ClusterAPIInstall/d' ${CLUSTER_DIR}/install-config.yaml
 fi
 
-cat ${CLUSTER_DIR}/install-config.yaml
+
 #
 # We use manual credentials mode
 #
 sed -i '/credentialsMode/d' ${CLUSTER_DIR}/install-config.yaml
 sed -i '/^baseDomain:.*$/a credentialsMode: Manual' ${CLUSTER_DIR}/install-config.yaml
-
+echo "---------------------------------------------------"
+cat ${CLUSTER_DIR}/install-config.yaml
+echo "---------------------------------------------------"
 date --utc +"%Y-%m-%dT%H:%M:%S%:z"
 openshift-install create ignition-configs --dir ${CLUSTER_DIR} --log-level=debug
 
