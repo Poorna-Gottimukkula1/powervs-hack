@@ -17,6 +17,7 @@
 #
 
 USE_CAPI=false
+USE_SERVICE_INSTANCE_GUID=false
 TEST_QUOTA_DNS=false
 TEST_QUOTA_CLOUD_CONNECTIONS=false
 TEST_QUOTA_DHCP=false
@@ -340,6 +341,10 @@ ___EOF___
 
 cat ${CLUSTER_DIR}/install-config.yaml
 
+if ! ${USE_SERVICE_INSTANCE_GUID}
+then
+	sed -i -e '/^serviceInstanceGUID/d' ${CLUSTER_DIR}/install-config.yaml
+fi
 if ! ${USE_CAPI}
 then
 	sed -i -e '/^featureSet/d' -e'/^featureGates/d' -e '/ClusterAPIInstall/d' ${CLUSTER_DIR}/install-config.yaml
