@@ -343,7 +343,7 @@ cat ${CLUSTER_DIR}/install-config.yaml
 
 if ! ${USE_SERVICE_INSTANCE_GUID}
 then
-	sed -i -e '/^serviceInstanceGUID/d' ${CLUSTER_DIR}/install-config.yaml
+	sed -i '/serviceInstanceGUID/d' ${CLUSTER_DIR}/install-config.yaml
 fi
 if ! ${USE_CAPI}
 then
