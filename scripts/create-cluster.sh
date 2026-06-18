@@ -146,10 +146,11 @@ then
 	fi
 fi
 
-if ${TEST_QUOTA_CLOUD_CONNECTIONS}
+if ${TEST_QUOTA_CLOUD_CONNECTIONS} && ${USE_SERVICE_INSTANCE_GUID}
 then
 	#
 	# Quota check cloud connections
+	# Only run if USE_SERVICE_INSTANCE_GUID is true (workspace exists)
 	#
 	CONNECTIONS=$(ibmcloud pi cloud-connection list --json | jq -r '.cloudConnections|length')
 	if (( ${CONNECTIONS} >= 2 ))
@@ -159,10 +160,11 @@ then
 	fi
 fi
 
-if ${TEST_QUOTA_DHCP}
+if ${TEST_QUOTA_DHCP} && ${USE_SERVICE_INSTANCE_GUID}
 then
 	#
 	# Quota check DHCP networks
+	# Only run if USE_SERVICE_INSTANCE_GUID is true (workspace exists)
 	#
 	SERVICE_INSTANCE_CRN=$(ibmcloud resource service-instances --output JSON | jq -r '.[] | select(.guid|test("'${SERVICE_INSTANCE_GUID}'")) | .crn')
 	CLOUD_INSTANCE_ID=$(echo ${SERVICE_INSTANCE_CRN} | cut -d: -f8)
