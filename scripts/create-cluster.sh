@@ -171,10 +171,11 @@ then
 	fi
 fi
 
-if ${TEST_QUOTA_IMAGE_IMPORT}
+if ${TEST_QUOTA_IMAGE_IMPORT} && ${USE_SERVICE_INSTANCE_GUID}
 then
 	#
 	# Quota check for image imports
+	# Only run if USE_SERVICE_INSTANCE_GUID is true (workspace exists)
 	#
 	JOBS=$(ibmcloud pi job ls --operation-action imageImport --json | jq -r '.jobs[] | select (.status.state|test("running")) | .id')
 	if [ -n "${JOBS}" ]
